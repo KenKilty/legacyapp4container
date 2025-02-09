@@ -19,7 +19,7 @@ mkdir -p target
 cp src/main/resources/input.txt target/input.txt
 
 # Compile the Java code
-javac -d target "$SOURCE_FILE"
+javac -d target --release 11 "$SOURCE_FILE"
 
 # Create a temporary directory for the manifest file
 TEMP_DIR=$(mktemp -d)
@@ -30,8 +30,10 @@ rm -rf "$TEMP_DIR"
 
 # Build the container image using podman with context directory switch
 echo "Building container image with podman..."
-podman build -t legacyapp4container -f dockerfile .
+#podman build -t legacyapp4container -f dockerfile .
+/usr/bin/podman-remote build -t legacyapp4container -f dockerfile .
 
 # Run the container and output results to the console
 echo "Running container..."
-podman run --rm legacyapp4container
+#podman run --rm legacyapp4container
+/usr/bin/podman-remote run --rm legacyapp4container
